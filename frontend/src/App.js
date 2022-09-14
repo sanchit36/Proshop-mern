@@ -1,18 +1,24 @@
+import { Box, Container } from '@mui/material';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import { Container } from '@mui/material';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
 
 const App = () => {
   return (
-    <>
+    <Router>
       <Header />
-      <main>
+      <Box component={'main'} sx={{ py: 3 }}>
         <Container maxWidth='lg'>
-          <h1>Welcome to ProShop</h1>
+          <Routes>
+            <Route path='/' element={<HomeScreen />} />
+            <Route path='/product/:id' element={<ProductScreen />} />
+          </Routes>
         </Container>
-      </main>
+      </Box>
       <Footer />
-    </>
+    </Router>
   );
 };
 

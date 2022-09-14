@@ -9,6 +9,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -33,8 +34,8 @@ const Header = () => {
             <Typography
               variant='h6'
               noWrap
-              component='a'
-              href='/'
+              component={Link}
+              to='/'
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -82,13 +83,21 @@ const Header = () => {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                <MenuItem onClick={handleCloseNavMenu}>
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to='/cart'
+                >
                   <ListItemIcon>
                     <ShoppingCartIcon fontSize='small' />
                   </ListItemIcon>
-                  <Typography>Chart</Typography>
+                  <Typography>Cart</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to='/login'
+                >
                   <ListItemIcon>
                     <PersonIcon fontSize='small' />
                   </ListItemIcon>
@@ -125,14 +134,18 @@ const Header = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ mx: 1, color: 'white' }}
                 startIcon={<ShoppingCartIcon />}
+                component={Link}
+                to='/cart'
               >
-                Chart
+                Cart
               </Button>
 
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ mx: 1, color: 'white' }}
                 startIcon={<PersonIcon />}
+                component={Link}
+                to='/login'
               >
                 Sign in
               </Button>
