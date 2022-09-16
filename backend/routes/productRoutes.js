@@ -1,6 +1,7 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
+import AppError from '../utils/appError.js';
 const router = express.Router();
 
 // @desc Fetch all products
@@ -22,7 +23,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      throw new AppError('Product not found', 404);
     }
     res.json(product);
   })
