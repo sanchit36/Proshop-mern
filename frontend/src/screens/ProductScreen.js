@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Slider, Button, Card, Divider, Grid, Typography } from '@mui/material';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import Rating from '../components/Rating';
@@ -15,6 +15,9 @@ const imageFluid = {
 };
 
 const ProductScreen = () => {
+  const [qty, setQty] = useState(1);
+
+  const navigator = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, error, product } = useSelector(
@@ -24,6 +27,10 @@ const ProductScreen = () => {
   useEffect(() => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
+
+  const addToCartHandler = () => {
+    navigator(`/cart/${id}?qty=${qty}`);
+  };
 
   return (
     <>
@@ -85,16 +92,35 @@ const ProductScreen = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Box sx={{ mt: 2 }}>
-                <Button
-                  variant='contained'
-                  color='warning'
-                  disabled={product.countInStock === 0}
-                  fullWidth
-                >
-                  Add To Cart
-                </Button>
-              </Box>
+
+              <Grid container sx={{ mt: 2 }} spacing={1}>
+                {product.countInStock > 0 && (
+                  <Grid item xs={12}>
+                    <Slider
+                      color='secondary'
+                      valueLabelDisplay='auto'
+                      step={1}
+                      marks
+                      defaultValue={1}
+                      min={1}
+                      max={product.countInStock}
+                      value={qty}
+                      onChange={(e) => setQty(e.target.value)}
+                    />
+                  </Grid>
+                )}
+                <Grid item xs={12}>
+                  <Button
+                    onClick={addToCartHandler}
+                    variant='contained'
+                    color='warning'
+                    disabled={product.countInStock === 0}
+                    fullWidth
+                  >
+                    Add To Cart
+                  </Button>
+                </Grid>
+              </Grid>
             </Card>
           </Grid>
         </Grid>
