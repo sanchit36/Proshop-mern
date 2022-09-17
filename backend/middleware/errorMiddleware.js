@@ -8,7 +8,8 @@ export const notFound = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
-  const statusCode = err.statusCode === 200 ? 500 : err.statusCode;
+  const statusCode =
+    !err.statusCode || err.statusCode === 200 ? 500 : err.statusCode;
   res.status(statusCode);
   res.json({
     success: false,
