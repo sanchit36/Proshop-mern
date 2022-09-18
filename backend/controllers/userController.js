@@ -23,3 +23,20 @@ export const authUser = asyncHandler(async (req, res) => {
     throw new AppError('Invalid email address or password', 401);
   }
 });
+
+// @desc Get user profile
+// @route GET /api/users/profile
+// @access Private
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    throw new AppError('User not found', 404);
+  }
+});
