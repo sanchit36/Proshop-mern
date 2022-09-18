@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import AppError from '../utils/appError.js';
+import generateToken from '../utils/generateToken.js';
 
 // @desc Auth user & get token
 // @route POST /api/users/login
@@ -16,7 +17,7 @@ export const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: null,
+      token: generateToken(user._id),
     });
   } else {
     throw new AppError('Invalid email address or password', 401);
