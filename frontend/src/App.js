@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <Box component={'main'} sx={{ py: 3 }}>
+      <Box component={'main'} sx={{ mt: 8, py: 3 }}>
         <Container maxWidth='lg'>
           <Routes>
             <Route path='/' element={<HomeScreen />} />

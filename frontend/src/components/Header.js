@@ -10,25 +10,26 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
+import AccountMenu from './AccountMenu';
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const userInfo = useSelector((state) => state.userLogin.userInfo);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
   return (
     <header>
-      <AppBar position='static'>
+      <AppBar position='fixed'>
         <Container maxWidth='lg'>
           <Toolbar disableGutters>
             <Typography
@@ -123,6 +124,7 @@ const Header = () => {
             >
               PRO-SHOP
             </Typography>
+
             <Box
               sx={{
                 flexGrow: 1,
@@ -132,7 +134,7 @@ const Header = () => {
             >
               <Button
                 onClick={handleCloseNavMenu}
-                sx={{ mx: 1, color: 'white' }}
+                sx={{ mx: 0.5, color: 'white' }}
                 startIcon={<ShoppingCartIcon />}
                 component={Link}
                 to='/cart'
@@ -140,46 +142,19 @@ const Header = () => {
                 Cart
               </Button>
 
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ mx: 1, color: 'white' }}
-                startIcon={<PersonIcon />}
-                component={Link}
-                to='/login'
-              >
-                Sign in
-              </Button>
+              {!userInfo && (
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ mx: 1, color: 'white' }}
+                  startIcon={<PersonIcon />}
+                  component={Link}
+                  to='/login'
+                >
+                  Sign in
+                </Button>
+              )}
             </Box>
-
-            {/* <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title='Open settings'>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id='menu-appbar'
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign='center'>{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box> */}
+            {userInfo && <AccountMenu user={userInfo} />}
           </Toolbar>
         </Container>
       </AppBar>
