@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import { saveShippingAddress } from '../redux/actions/cartActions';
+import CheckoutSteps from '../components/CheckoutSteps';
 
 const ShippingScreen = () => {
   const dispatch = useDispatch();
@@ -24,17 +25,16 @@ const ShippingScreen = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(state);
     dispatch(saveShippingAddress(state));
     navigator('/payment');
   };
 
   return (
     <FormContainer>
+      <CheckoutSteps step1 step2 />
       <Typography variant='h4' component='h1' gutterBottom>
         SHIPPING
       </Typography>
-
       <Stack
         component={'form'}
         spacing={2}
