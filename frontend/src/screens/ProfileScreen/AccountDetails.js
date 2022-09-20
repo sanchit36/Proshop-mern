@@ -5,6 +5,7 @@ import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import {
   getUserDetails,
+  resetSuccessState,
   updateUserDetails,
 } from '../../redux/actions/userActions';
 
@@ -37,7 +38,11 @@ const AccountDetails = () => {
         UPDATE ACCOUNT DETAILS
       </Typography>
       {!!success && (
-        <Message severity='success' open={!!success}>
+        <Message
+          severity='success'
+          open={!!success}
+          onClose={() => dispatch(resetSuccessState())}
+        >
           Updated Successfully
         </Message>
       )}

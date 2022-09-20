@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../redux/actions/cartActions';
 import {
+  Alert,
   Button,
   Card,
   Divider,
@@ -49,9 +49,9 @@ const CartScreen = () => {
             Shopping Cart
           </Typography>
           {cartItems.length === 0 ? (
-            <Message>
+            <Alert>
               Your cart is empty, <Link to='/'>Go Back</Link>
-            </Message>
+            </Alert>
           ) : (
             <Box>
               <Divider sx={{ mb: 1 }} />

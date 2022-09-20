@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Slider, Button, Card, Divider, Grid, Typography } from '@mui/material';
+import {
+  Slider,
+  Button,
+  Card,
+  Divider,
+  Grid,
+  Typography,
+  Alert,
+} from '@mui/material';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -7,7 +15,6 @@ import Rating from '../components/Rating';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProductDetails } from '../redux/actions/productActions';
 import Loader from '../components/Loader';
-import Message from '../components/Message';
 
 const imageFluid = {
   maxWidth: '100%',
@@ -47,7 +54,7 @@ const ProductScreen = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message severity='error'>{error}</Message>
+        <Alert severity='error'>{error}</Alert>
       ) : (
         <Grid container spacing={3}>
           <Grid item md={5}>

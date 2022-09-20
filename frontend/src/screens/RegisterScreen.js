@@ -43,8 +43,22 @@ const RegisterScreen = () => {
       <Typography variant='h4' component='h1' gutterBottom>
         SIGN UP
       </Typography>
-      {message && <Message severity='error'>{message}</Message>}
-      {error && <Message severity='error'>{error}</Message>}
+      {message && (
+        <Message
+          severity='error'
+          open={!!message}
+          onClose={() => {
+            setMessage('');
+          }}
+        >
+          {message}
+        </Message>
+      )}
+      {error && (
+        <Message severity='error' open={!!message}>
+          {error}
+        </Message>
+      )}
       {loading && <Loader />}
 
       <Stack

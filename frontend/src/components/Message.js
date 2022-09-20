@@ -9,9 +9,13 @@ const Message = ({
   autoHideDuration,
   vertical,
   horizontal,
+  onClose,
 }) => {
   const [open, setOpen] = useState(propOpen);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    if (onClose && typeof onClose === 'function') onClose();
+  };
   return (
     <Snackbar
       onClose={handleClose}

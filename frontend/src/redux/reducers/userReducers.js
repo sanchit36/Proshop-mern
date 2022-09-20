@@ -12,6 +12,7 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_RESET_SUCCESS_STATE,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
@@ -62,6 +63,9 @@ export const userReducer = (state = {}, action) => {
     case USER_UPDATE_PROFILE_FAIL:
     case USER_CHANGE_PASSWORD_FAIL:
       return { loading: false, error: action.payload };
+
+    case USER_RESET_SUCCESS_STATE:
+      return { ...state, success: false };
 
     case USER_LOGOUT:
       return {};

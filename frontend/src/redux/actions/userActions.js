@@ -13,6 +13,7 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_RESET_SUCCESS_STATE,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
@@ -149,4 +150,8 @@ export const changePassword =
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
+};
+
+export const resetSuccessState = () => (dispatch) => {
+  dispatch({ type: USER_RESET_SUCCESS_STATE });
 };
