@@ -81,9 +81,6 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    if (req.body.password) {
-      user.password = req.body.password;
-    }
 
     const updatedUser = await user.save();
 
@@ -94,6 +91,32 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
     });
+  } else {
+    throw new AppError('User not found', 404);
+  }
+});
+
+// @desc Update user password
+// @route PUT /api/users/change-password
+// @access Private
+export const changeUserPassword = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    const { oldPassword, newPassword } = req.body;
+    if (newPassword && (await user.matchPassword(oldPassword))) {
+      user.password = newPassword;
+      const updatedUser = await user.save();
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        token: generateToken(updatedUser._id),
+      });
+    } else {
+      throw new AppError('Invalid inputs', 400);
+    }
   } else {
     throw new AppError('User not found', 404);
   }

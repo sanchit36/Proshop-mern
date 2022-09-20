@@ -33,7 +33,7 @@ const ProductScreen = () => {
   };
 
   return (
-    <>
+    <div>
       <Button
         component={Link}
         to='/'
@@ -125,7 +125,7 @@ const ProductScreen = () => {
           </Grid>
         </Grid>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   authUser,
+  changeUserPassword,
   getUserProfile,
   registerUser,
   updateUserProfile,
@@ -14,5 +15,6 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+router.put('/change-password', protect, changeUserPassword);
 
 export default router;

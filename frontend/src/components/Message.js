@@ -1,17 +1,35 @@
-import React from 'react';
-import { Alert } from '@mui/material';
+import React, { useState } from 'react';
+import { Snackbar } from '@mui/material';
 
-const Message = ({ severity, variant, children }) => {
+const Message = ({
+  open: propOpen,
+  severity,
+  children,
+  autoHideDuration,
+  vertical,
+  horizontal,
+}) => {
+  const [open, setOpen] = useState(propOpen);
+
   return (
-    <Alert severity={severity} variant={variant} sx={{ my: 1 }}>
-      {children}
-    </Alert>
+    <Snackbar
+      onClose={() => setOpen(false)}
+      anchorOrigin={{ vertical, horizontal }}
+      open={open}
+      autoHideDuration={autoHideDuration}
+      message={children}
+      severity={severity}
+    />
   );
 };
 
 Message.defaultProps = {
+  open: false,
   severity: 'info',
   variant: 'filled',
+  autoHideDuration: 1000,
+  vertical: 'top',
+  horizontal: 'center',
 };
 
 export default Message;

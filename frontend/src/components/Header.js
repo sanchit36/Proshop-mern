@@ -18,7 +18,7 @@ import AccountMenu from './AccountMenu';
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const userInfo = useSelector((state) => state.userLogin.userInfo);
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

@@ -13,7 +13,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
-  const { loading, error, userInfo } = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = useSelector((state) => state.user);
 
   const location = useLocation();
   const redirect = location.search ? location.search.split('=')[1] : '/';
