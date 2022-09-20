@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Snackbar } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 
 const Message = ({
   open: propOpen,
+  variant,
   severity,
   children,
   autoHideDuration,
@@ -10,16 +11,23 @@ const Message = ({
   horizontal,
 }) => {
   const [open, setOpen] = useState(propOpen);
-
+  const handleClose = () => setOpen(false);
   return (
     <Snackbar
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
       anchorOrigin={{ vertical, horizontal }}
       open={open}
       autoHideDuration={autoHideDuration}
-      message={children}
-      severity={severity}
-    />
+    >
+      <Alert
+        onClose={handleClose}
+        severity={severity}
+        variant={variant}
+        sx={{ width: '100%' }}
+      >
+        {children}
+      </Alert>
+    </Snackbar>
   );
 };
 
@@ -27,7 +35,7 @@ Message.defaultProps = {
   open: false,
   severity: 'info',
   variant: 'filled',
-  autoHideDuration: 1000,
+  autoHideDuration: 3000,
   vertical: 'top',
   horizontal: 'center',
 };

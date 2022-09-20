@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import {
+  USER_CHANGE_PASSWORD_FAIL,
+  USER_CHANGE_PASSWORD_REQUEST,
+  USER_CHANGE_PASSWORD_SUCCESS,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_LOGIN_FAIL,
@@ -70,7 +73,7 @@ export const getUserDetails =
     try {
       dispatch({ type: USER_DETAILS_REQUEST });
       const {
-        userLogin: { userInfo },
+        user: { userInfo },
       } = getState();
       const config = {
         headers: {
@@ -94,7 +97,7 @@ export const updateUserDetails =
     try {
       dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
       const {
-        userLogin: { userInfo },
+        user: { userInfo },
       } = getState();
       const config = {
         headers: {
@@ -119,9 +122,9 @@ export const updateUserDetails =
 export const changePassword =
   (oldPassword, newPassword) => async (dispatch, getState) => {
     try {
-      dispatch({ type: USER_DETAILS_REQUEST });
+      dispatch({ type: USER_CHANGE_PASSWORD_REQUEST });
       const {
-        userLogin: { userInfo },
+        user: { userInfo },
       } = getState();
       const config = {
         headers: {
@@ -134,10 +137,10 @@ export const changePassword =
         { oldPassword, newPassword },
         config
       );
-      dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+      dispatch({ type: USER_CHANGE_PASSWORD_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
-        type: USER_LOGIN_FAIL,
+        type: USER_CHANGE_PASSWORD_FAIL,
         payload: getErrorMessage(error),
       });
     }

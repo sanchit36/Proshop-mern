@@ -34,7 +34,11 @@ const LoginScreen = () => {
       <Typography variant='h4' component='h1' gutterBottom>
         SIGN IN
       </Typography>
-      {error && <Message severity='error'>{error}</Message>}
+      {error && (
+        <Message severity='error' open={!!error}>
+          {error}
+        </Message>
+      )}
       {loading && <Loader />}
 
       <Stack

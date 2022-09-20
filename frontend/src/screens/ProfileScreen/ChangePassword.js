@@ -1,27 +1,44 @@
 import { Button, Stack, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
+import { changePassword } from '../../redux/actions/userActions';
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [message, setMessage] = useState('');
+
   const dispatch = useDispatch();
-  const { loading, error, userInfo } = useSelector((state) => state.user);
+  const { loading, error, success } = useSelector((state) => state.user);
 
   const submitHandler = (event) => {
     event.preventDefault();
+    dispatch(changePassword(oldPassword, newPassword));
   };
+
+  useEffect(() => {
+    if (success) {
+      setOldPassword('');
+      setNewPassword('');
+    }
+  }, [success]);
 
   return (
     <>
       <Typography variant='h5' component='h1' gutterBottom>
         CHANGE PASSWORD
       </Typography>
-      {message && <Message severity='error'>{message}</Message>}
-      {error && <Message severity='error'>{error}</Message>}
+      {success && (
+        <Message severity='success' open={success}>
+          Password changed Successfully
+        </Message>
+      )}
+      {!!error && (
+        <Message severity='error' open={!!error}>
+          {error}
+        </Message>
+      )}
       {loading && <Loader />}
 
       <Stack

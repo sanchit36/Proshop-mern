@@ -20,8 +20,8 @@ const ProtectedRoute = ({ condition, component, redirectURL }) => {
 };
 
 const App = () => {
-  const userLogin = useSelector((state) => state.user);
-  const { userInfo } = userLogin;
+  const user = useSelector((state) => state.user);
+  const { userInfo } = user;
 
   return (
     <Router>
