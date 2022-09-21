@@ -29,8 +29,9 @@ export const addOrderItems = asyncHandler(async (req, res) => {
     itemPrice,
     taxPrice,
     shippingPrice,
+    totalPrice,
   });
-  res.status(201).json(order);
+  res.status(201).json({ _id: order._id });
 });
 
 // @desc Get order by id

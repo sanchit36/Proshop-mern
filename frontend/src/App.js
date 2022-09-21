@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 
 const ProtectedRoute = ({ condition, component, redirectURL }) => {
   return condition ? component : <Navigate to={redirectURL} replace />;
@@ -44,6 +45,7 @@ const App = () => {
           <Route path='/shipping' element={<ShippingScreen />} />
           <Route path='/payment' element={<PaymentScreen />} />
           <Route path='/place-order' element={<PlaceOrderScreen />} />
+          <Route path='/order/:id' element={<OrderScreen />} />
           <Route
             path='/profile'
             element={
