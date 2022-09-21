@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../redux/actions/orderActions';
+import { ORDER_CREATE_RESET } from '../redux/constants/orderConstants';
 
 const PlaceOrderScreen = () => {
   const navigator = useNavigate();
@@ -38,11 +39,13 @@ const PlaceOrderScreen = () => {
   useEffect(() => {
     if (success) {
       navigator(`/order/${order._id}`);
+      dispatch({ type: ORDER_CREATE_RESET });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigator, success]);
 
   const placeOrderHandler = (event) => {
+    console.log('REQUEST SENDING');
     event.preventDefault();
     dispatch(
       createOrder({
