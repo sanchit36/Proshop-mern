@@ -1,19 +1,26 @@
-import React from 'react';
-import { Typography, Button, Box, Divider, Grid, Paper } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import {
+  Typography,
+  Button,
+  Box,
+  Divider,
+  Grid,
+  Paper,
+  Alert,
+} from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { createOrder } from '../redux/actions/orderActions';
 
 const PlaceOrderScreen = () => {
-  const { cartItems, shippingAddress, paymentMethod } = useSelector(
-    (state) => state.cart
-  );
-
+  const navigator = useNavigate();
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const { cartItems, shippingAddress, paymentMethod } = cart;
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
-
-  const cart = {};
   cart.itemsPrice = addDecimals(
     cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
@@ -25,8 +32,29 @@ const PlaceOrderScreen = () => {
     Number(cart.taxPrice)
   ).toFixed(2);
 
-  const submitHandler = (event) => {
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order, success, error } = orderCreate;
+
+  useEffect(() => {
+    if (success) {
+      navigator(`/order/${order._id}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigator, success]);
+
+  const placeOrderHandler = (event) => {
     event.preventDefault();
+    dispatch(
+      createOrder({
+        orderItems: cartItems,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
   };
 
   return (
@@ -142,13 +170,20 @@ const PlaceOrderScreen = () => {
             </Grid>
 
             <Divider sx={{ mb: 3 }} />
+
+            {error && (
+              <Alert severity='error' sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
+
             <Button
               fullWidth
               type='submit'
               variant='contained'
               color='warning'
               disabled={cartItems.length === 0}
-              onClick={submitHandler}
+              onClick={placeOrderHandler}
             >
               Place order
             </Button>
