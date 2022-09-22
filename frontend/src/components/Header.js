@@ -15,6 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import AccountMenu from './AccountMenu';
+import AdminMenu from './AdminMenu';
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -155,6 +156,7 @@ const Header = () => {
               )}
             </Box>
             {userInfo && <AccountMenu user={userInfo} />}
+            {userInfo && userInfo.isAdmin && <AdminMenu user={userInfo} />}
           </Toolbar>
         </Container>
       </AppBar>

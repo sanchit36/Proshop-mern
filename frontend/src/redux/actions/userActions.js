@@ -7,6 +7,9 @@ import {
   USER_CHANGE_PASSWORD_SUCCESS,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -156,4 +159,18 @@ export const logout = () => (dispatch) => {
 
 export const resetSuccessState = () => (dispatch) => {
   dispatch({ type: USER_RESET_SUCCESS_STATE });
+};
+
+export const getUserList = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_LIST_REQUEST });
+    const {
+      user: { userInfo },
+    } = getState();
+    const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
+    const { data } = await axios.get('/api/users', config);
+    dispatch({ type: USER_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: USER_LIST_FAIL, payload: getErrorMessage(error) });
+  }
 };
