@@ -121,3 +121,11 @@ export const changeUserPassword = asyncHandler(async (req, res) => {
     throw new AppError('User not found', 404);
   }
 });
+
+// @desc Get all users
+// @route GET /api/users/profile
+// @access Private/Admin
+export const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
