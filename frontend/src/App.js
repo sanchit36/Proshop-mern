@@ -63,7 +63,7 @@ const App = () => {
               <ProtectedRoute
                 component={<UserListScreen />}
                 condition={userInfo && userInfo.isAdmin}
-                redirectURL='/'
+                redirectURL='/login'
               />
             }
           />

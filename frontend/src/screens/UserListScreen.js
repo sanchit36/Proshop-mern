@@ -15,18 +15,24 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getUserList } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
 
 const UserListScreen = () => {
+  const navigator = useNavigate();
   const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.user);
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
 
   useEffect(() => {
-    dispatch(getUserList());
-  }, [dispatch]);
+    if (userInfo && userInfo.isAdmin) {
+      dispatch(getUserList());
+    } else {
+      navigator('/login');
+    }
+  }, [dispatch, navigator, userInfo]);
 
   return loading ? (
     <Loader />
