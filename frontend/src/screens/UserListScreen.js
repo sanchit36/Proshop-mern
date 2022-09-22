@@ -16,8 +16,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUserList } from '../redux/actions/userActions';
+import { deleteUser, getUserList } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const UserListScreen = () => {
   const navigator = useNavigate();
@@ -25,6 +26,8 @@ const UserListScreen = () => {
   const { userInfo } = useSelector((state) => state.user);
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
+  const userDelete = useSelector((state) => state.userDelete);
+  const { loading: loadingDelete, error: errorDelete } = userDelete;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -34,12 +37,21 @@ const UserListScreen = () => {
     }
   }, [dispatch, navigator, userInfo]);
 
+  const deleteHandler = (id) => () => {
+    dispatch(deleteUser(id));
+  };
+
   return loading ? (
     <Loader />
   ) : error ? (
     <Alert severity='error'>{error}</Alert>
   ) : (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      {errorDelete && (
+        <Message severity='error' open={!!errorDelete}>
+          {errorDelete}
+        </Message>
+      )}
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader size='small'>
           <TableHead>
@@ -72,14 +84,15 @@ const UserListScreen = () => {
                     to={`/user/${user._id}/edit`}
                     color='info'
                     size='small'
+                    disabled={loadingDelete}
                   >
                     <EditIcon fontSize='inherit' />
                   </IconButton>
                   <IconButton
-                    component={Link}
-                    to={`/user/${user._id}/delete`}
                     color='error'
                     size='small'
+                    disabled={loadingDelete}
+                    onClick={deleteHandler(user._id)}
                   >
                     <DeleteIcon fontSize='inherit' />
                   </IconButton>
