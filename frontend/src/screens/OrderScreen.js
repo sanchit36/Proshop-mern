@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import { getOrderDetails, payOrder } from '../redux/actions/orderActions';
 import axios from 'axios';
-import { ORDER_PAY_RESET } from '../redux/constants/orderConstants';
+import {
+  ORDER_DETAILS_RESET,
+  ORDER_PAY_RESET,
+} from '../redux/constants/orderConstants';
 
 const OrderScreen = () => {
   const orderId = useParams().id;
@@ -31,8 +34,10 @@ const OrderScreen = () => {
 
   useEffect(() => {
     dispatch(getOrderDetails(orderId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return () => {
+      dispatch({ type: ORDER_DETAILS_RESET });
+    };
+  }, [dispatch, orderId]);
 
   useEffect(() => {
     const addPayPalScript = async () => {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import { Link } from 'react-router-dom';
 
 export function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,7 +46,13 @@ const TabsContainer = ({ value, handleChange, tabs = [], children }) => {
         sx={{ borderRight: 1, borderColor: 'divider' }}
       >
         {tabs.map((tab, index) => (
-          <Tab key={tab.id} label={tab.label} {...a11yProps(tab.id)} />
+          <Tab
+            LinkComponent={Link}
+            to={`/profile?tab=${tab.id}`}
+            key={tab.id}
+            label={tab.label}
+            {...a11yProps(tab.id)}
+          />
         ))}
       </Tabs>
       {children}

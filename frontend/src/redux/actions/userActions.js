@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getErrorMessage } from '../../utils/getErrorMessage';
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
 import {
   USER_CHANGE_PASSWORD_FAIL,
   USER_CHANGE_PASSWORD_REQUEST,
@@ -150,6 +151,7 @@ export const changePassword =
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: ORDER_LIST_MY_RESET });
 };
 
 export const resetSuccessState = () => (dispatch) => {

@@ -1,7 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Tabs, { TabPanel } from '../../components/Tab';
+import { useSearchParams } from 'react-router-dom';
 import AccountDetails from './AccountDetails';
 import ChangePassword from './ChangePassword';
+import OrderList from './OrderList';
 
 const TABS = [
   {
@@ -19,7 +21,14 @@ const TABS = [
 ];
 
 const ProfileScreen = () => {
+  const [searchParams] = useSearchParams();
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const tabValue = searchParams.get('tab');
+    const val = tabValue ? (!isNaN(tabValue) ? Number(tabValue) - 1 : 0) : 0;
+    setValue(val);
+  }, [searchParams]);
 
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue);
@@ -37,8 +46,9 @@ const ProfileScreen = () => {
         <ChangePassword />
       </TabPanel>
 
+      {/* ORDER LIST */}
       <TabPanel value={value} index={2}>
-        Coming Soon....
+        <OrderList />
       </TabPanel>
     </Tabs>
   );
