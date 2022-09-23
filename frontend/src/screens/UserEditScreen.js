@@ -39,7 +39,7 @@ const UserEditScreen = () => {
       dispatch({ type: USER_UPDATE_RESET });
       navigator('/admin/user-list');
     } else {
-      if (!user.name || user._id !== userId) {
+      if (!user || !user.name || user._id !== userId) {
         dispatch(getUserDetails(userId));
       } else {
         setName(user.name);
@@ -58,7 +58,7 @@ const UserEditScreen = () => {
     <div>
       <Button
         component={Link}
-        to='/'
+        to='/admin/user-list'
         variant='outlined'
         color='warning'
         startIcon={<ArrowBackIcon />}
