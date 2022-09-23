@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { listProducts } from '../redux/actions/productActions';
+import { deleteProduct, listProducts } from '../redux/actions/productActions';
 
 const ProductListScreen = () => {
   const navigator = useNavigate();
@@ -28,6 +28,8 @@ const ProductListScreen = () => {
   const { userInfo } = useSelector((state) => state.user);
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
+  const productDelete = useSelector((state) => state.productDelete);
+  const { loading: loadingDelete, error: errorDelete } = productDelete;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -37,7 +39,9 @@ const ProductListScreen = () => {
     }
   }, [dispatch, navigator, userInfo]);
 
-  const deleteHandler = (id) => () => {};
+  const deleteHandler = (id) => () => {
+    dispatch(deleteProduct(id));
+  };
 
   return loading ? (
     <Loader />
@@ -45,6 +49,11 @@ const ProductListScreen = () => {
     <Alert severity='error'>{error}</Alert>
   ) : (
     <>
+      {errorDelete && (
+        <Message severity='error' open={!!errorDelete}>
+          {errorDelete}
+        </Message>
+      )}
       <Stack direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
         <Typography variant='h4' component='h1'>
           PRODUCTS
@@ -85,6 +94,7 @@ const ProductListScreen = () => {
                       to={`/admin/product/${product._id}/edit`}
                       color='info'
                       size='small'
+                      disabled={loadingDelete}
                     >
                       <EditIcon fontSize='inherit' />
                     </IconButton>
@@ -92,6 +102,7 @@ const ProductListScreen = () => {
                       color='error'
                       size='small'
                       onClick={deleteHandler(product._id)}
+                      disabled={loadingDelete}
                     >
                       <DeleteIcon fontSize='inherit' />
                     </IconButton>
