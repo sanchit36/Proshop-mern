@@ -83,3 +83,27 @@ export const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate('user', 'name email');
   res.json(orders);
 });
+
+// @desc Update order to delivered
+// @route PUT /api/orders/:id/deliver
+// @access Private/Admin
+export const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    throw new AppError('Order not found', 404);
+  }
+
+  if (!order.isPaid) {
+    throw new AppError('Order not paid yet', 400);
+  }
+
+  if (order.isDelivered) {
+    throw new AppError('Already set to delivered', 400);
+  }
+
+  order.isDelivered = true;
+  order.deliveredAt = Date.now();
+  const updatedOrder = await order.save();
+  res.json(updatedOrder);
+});

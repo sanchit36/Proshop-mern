@@ -50,7 +50,16 @@ const App = () => {
           <Route path='/shipping' element={<ShippingScreen />} />
           <Route path='/payment' element={<PaymentScreen />} />
           <Route path='/place-order' element={<PlaceOrderScreen />} />
-          <Route path='/order/:id' element={<OrderScreen />} />
+          <Route
+            path='/order/:id'
+            element={
+              <ProtectedRoute
+                component={<OrderScreen />}
+                condition={userInfo}
+                redirectURL='/login'
+              />
+            }
+          />
           <Route
             path='/profile'
             element={

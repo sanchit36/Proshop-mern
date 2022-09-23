@@ -66,7 +66,7 @@ const OrderListScreen = () => {
                 </TableCell>
                 <TableCell>
                   {order.isDelivered ? (
-                    order.createdAt.deliveredAt(0, 10)
+                    order.deliveredAt.substring(0, 10)
                   ) : (
                     <CancelIcon color='error' />
                   )}

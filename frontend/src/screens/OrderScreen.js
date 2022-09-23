@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, Divider, Grid, Paper, Alert } from '@mui/material';
+import {
+  Typography,
+  Box,
+  Divider,
+  Grid,
+  Paper,
+  Alert,
+  Button,
+} from '@mui/material';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
-import { getOrderDetails, payOrder } from '../redux/actions/orderActions';
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from '../redux/actions/orderActions';
 import axios from 'axios';
 import {
   ORDER_DETAILS_RESET,
   ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
 } from '../redux/constants/orderConstants';
 
 const OrderScreen = () => {
@@ -17,11 +30,17 @@ const OrderScreen = () => {
   const [sdkReady, setSkdReady] = useState(false);
 
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const { userInfo } = user;
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   if (!loading && !error) {
     const addDecimals = (num) => {
@@ -52,8 +71,9 @@ const OrderScreen = () => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || successPay || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -62,10 +82,14 @@ const OrderScreen = () => {
         setSkdReady(true);
       }
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, order, orderId, successDeliver, successPay]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(orderId));
   };
 
   return loading ? (
@@ -228,6 +252,21 @@ const OrderScreen = () => {
                 )}
               </>
             )}
+
+            {userInfo &&
+              userInfo.isAdmin &&
+              order.isPaid &&
+              !order.isDelivered && (
+                <Button
+                  onClick={deliverHandler}
+                  fullWidth
+                  color='warning'
+                  variant='contained'
+                  disabled={loadingDeliver}
+                >
+                  Mark as Delivered
+                </Button>
+              )}
           </Paper>
         </Grid>
       </Grid>
