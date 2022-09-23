@@ -20,7 +20,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { deleteProduct, listProducts } from '../redux/actions/productActions';
+import {
+  createProduct,
+  deleteProduct,
+  listProducts,
+} from '../redux/actions/productActions';
+import { PRODUCT_CREATE_RESET } from '../redux/constants/productConstants';
 
 const ProductListScreen = () => {
   const navigator = useNavigate();
@@ -30,17 +35,33 @@ const ProductListScreen = () => {
   const { loading, error, products } = productList;
   const productDelete = useSelector((state) => state.productDelete);
   const { loading: loadingDelete, error: errorDelete } = productDelete;
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (!userInfo?.isAdmin) {
       navigator('/login');
     }
-  }, [dispatch, navigator, userInfo]);
+
+    if (successCreate) {
+      navigator(`/admin/product/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProducts());
+    }
+  }, [dispatch, navigator, userInfo, successCreate, createdProduct]);
 
   const deleteHandler = (id) => () => {
     dispatch(deleteProduct(id));
+  };
+
+  const createProductHandler = () => {
+    dispatch(createProduct({}));
   };
 
   return loading ? (
@@ -54,6 +75,11 @@ const ProductListScreen = () => {
           {errorDelete}
         </Message>
       )}
+      {errorCreate && (
+        <Message severity='error' open={!!errorCreate}>
+          {errorCreate}
+        </Message>
+      )}
       <Stack direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
         <Typography variant='h4' component='h1'>
           PRODUCTS
@@ -63,10 +89,12 @@ const ProductListScreen = () => {
           color='warning'
           size='small'
           startIcon={<AddIcon />}
+          onClick={createProductHandler}
         >
           CREATE PRODUCT
         </Button>
       </Stack>
+      {loadingCreate && <Loader />}
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader size='small'>
