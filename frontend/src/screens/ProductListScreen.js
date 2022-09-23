@@ -61,7 +61,7 @@ const ProductListScreen = () => {
   };
 
   const createProductHandler = () => {
-    dispatch(createProduct({}));
+    dispatch(createProduct());
   };
 
   return loading ? (

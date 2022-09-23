@@ -21,6 +21,7 @@ import OrderScreen from './screens/OrderScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
 
 const ProtectedRoute = ({ condition, component, redirectURL }) => {
   return condition ? component : <Navigate to={redirectURL} replace />;
@@ -84,6 +85,16 @@ const App = () => {
             element={
               <ProtectedRoute
                 component={<ProductListScreen />}
+                condition={userInfo && userInfo.isAdmin}
+                redirectURL='/login'
+              />
+            }
+          />
+          <Route
+            path='/admin/product/:id/edit'
+            element={
+              <ProtectedRoute
+                component={<ProductEditScreen />}
                 condition={userInfo && userInfo.isAdmin}
                 redirectURL='/login'
               />
