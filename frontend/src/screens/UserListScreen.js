@@ -81,7 +81,7 @@ const UserListScreen = () => {
                 <TableCell>
                   <IconButton
                     component={Link}
-                    to={`/user/${user._id}/edit`}
+                    to={`/admin/user/${user._id}/edit`}
                     color='info'
                     size='small'
                     disabled={loadingDelete}

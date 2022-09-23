@@ -55,7 +55,7 @@ const RegisterScreen = () => {
         </Message>
       )}
       {error && (
-        <Message severity='error' open={!!message}>
+        <Message severity='error' open={!!error}>
           {error}
         </Message>
       )}

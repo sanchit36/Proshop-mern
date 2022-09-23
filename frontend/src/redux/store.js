@@ -8,8 +8,10 @@ import {
 import { cartReducer } from './reducers/cartReducers';
 import {
   userDeleteReducer,
+  userDetailsReducer,
   userListReducer,
   userReducer,
+  userUpdateReducer,
 } from './reducers/userReducers';
 import {
   orderCreateReducer,
@@ -23,8 +25,10 @@ const reducer = combineReducers({
   productDetails: productDetailsReducer,
   cart: cartReducer,
   user: userReducer,
+  userDetails: userDetailsReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
