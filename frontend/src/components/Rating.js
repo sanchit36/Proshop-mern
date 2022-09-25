@@ -1,33 +1,63 @@
-import React from 'react';
-import StarRateIcon from '@mui/icons-material/StarRate';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import StarHalfIcon from '@mui/icons-material/StarHalf';
-import { Typography, Stack } from '@mui/material';
+import MuiRating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import StarIcon from '@mui/icons-material/Star';
+import { useEffect, useState } from 'react';
 
-const Star = ({ value, index }) => {
-  return (
-    <span>
-      {value >= index ? (
-        <StarRateIcon fontSize='small' />
-      ) : value >= index - 0.5 ? (
-        <StarHalfIcon fontSize='small' />
-      ) : (
-        <StarOutlineIcon fontSize='small' />
-      )}
-    </span>
-  );
+const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
 };
 
-const Rating = ({ value, text }) => {
+function getLabelText(value) {
+  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+}
+
+const Rating = ({ value, text, onRatingChange, ...props }) => {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(-1);
+
+  useEffect(() => {
+    setRating(value);
+  }, [value]);
+
   return (
-    <Stack direction='row' alignItems='center' spacing={1}>
-      <div>
-        {[1, 2, 3, 4, 5].map((index) => (
-          <Star key={index} value={value} index={index} />
-        ))}
-      </div>
-      {text && <Typography variant='caption'>{text}</Typography>}
-    </Stack>
+    <Box
+      sx={{
+        width: 200,
+        display: 'flex',
+        alignItems: 'center',
+        my: 0.5,
+      }}
+    >
+      <MuiRating
+        size='small'
+        name='hover-feedback'
+        value={value}
+        precision={0.5}
+        getLabelText={getLabelText}
+        onChange={(event, newValue) => {
+          setRating(newValue);
+          onRatingChange(newValue);
+        }}
+        onChangeActive={(event, newHover) => {
+          setHover(newHover);
+        }}
+        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />}
+        {...props}
+      />
+      {rating !== null && !props.readOnly && (
+        <Box sx={{ ml: 1 }}>{labels[hover !== -1 ? hover : value]}</Box>
+      )}
+      {text && <Box sx={{ ml: 1 }}>{text}</Box>}
+    </Box>
   );
 };
 

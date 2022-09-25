@@ -33,6 +33,7 @@ const ProductCard = ({ product }) => {
 
           <Box sx={{ flex: 1, display: 'flex', alignItems: 'flex-end' }}>
             <Rating
+              readOnly
               value={product.rating}
               text={`${product.numReviews} review${
                 product.numReviews > 1 ? 's' : ''

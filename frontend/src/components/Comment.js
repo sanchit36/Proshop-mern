@@ -3,10 +3,10 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Rating,
   Typography,
 } from '@mui/material';
 import React from 'react';
+import Rating from './Rating';
 
 const Comment = ({ review }) => {
   return (

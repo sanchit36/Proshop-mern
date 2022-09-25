@@ -9,7 +9,6 @@ import {
   Alert,
   List,
   TextField,
-  MenuItem,
 } from '@mui/material';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -106,6 +105,7 @@ const ProductScreen = () => {
                 {product.name}
               </Typography>
               <Rating
+                readOnly
                 value={product.rating}
                 text={`${product.numReviews} review${
                   product.numReviews > 1 ? 's' : ''
@@ -199,18 +199,11 @@ const ProductScreen = () => {
               </Typography>
               {userInfo ? (
                 <Stack component={'form'} spacing={2} onSubmit={submitHandler}>
-                  <TextField
-                    label='Review'
-                    select
+                  <Rating
+                    size='large'
                     value={rating}
-                    onChange={(e) => setRating(e.target.value)}
-                  >
-                    <MenuItem value='1'>1 - Poor</MenuItem>
-                    <MenuItem value='2'>2 - Fair</MenuItem>
-                    <MenuItem value='3'>3 - Good</MenuItem>
-                    <MenuItem value='4'>4 - Very Good</MenuItem>
-                    <MenuItem value='5'>5 - Excellent</MenuItem>
-                  </TextField>
+                    onRatingChange={(newVal) => setRating(newVal)}
+                  />
                   <TextField
                     label='Comment'
                     multiline
