@@ -9,6 +9,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
   Typography,
@@ -17,7 +18,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import {
@@ -26,13 +27,17 @@ import {
   listProducts,
 } from '../redux/actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../redux/constants/productConstants';
+import Paginate from '../components/Paginate';
 
 const ProductListScreen = () => {
+  const [params] = useSearchParams();
+  const page = params.get('page') || 1;
+
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, pages, count } = productList;
   const productDelete = useSelector((state) => state.productDelete);
   const { loading: loadingDelete, error: errorDelete } = productDelete;
   const productCreate = useSelector((state) => state.productCreate);
@@ -52,9 +57,9 @@ const ProductListScreen = () => {
     if (successCreate) {
       navigator(`/admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts());
+      dispatch(listProducts('', page));
     }
-  }, [dispatch, navigator, userInfo, successCreate, createdProduct]);
+  }, [dispatch, navigator, userInfo, successCreate, createdProduct, page]);
 
   const deleteHandler = (id) => () => {
     dispatch(deleteProduct(id));
@@ -62,6 +67,10 @@ const ProductListScreen = () => {
 
   const createProductHandler = () => {
     dispatch(createProduct());
+  };
+
+  const onPageChange = (page) => {
+    navigator(`/admin/product-list?page=${page}`);
   };
 
   return loading ? (
@@ -138,6 +147,16 @@ const ProductListScreen = () => {
                 </TableRow>
               ))}
             </TableBody>
+            <TableFooter>
+              <Paginate
+                pages={pages}
+                page={page}
+                count={count}
+                isTable
+                isAdmin
+                onPageChange={onPageChange}
+              />
+            </TableFooter>
           </Table>
         </TableContainer>
       </Paper>

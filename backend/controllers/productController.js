@@ -6,6 +6,9 @@ import AppError from '../utils/appError.js';
 // @route GET /api/products
 // @access Public
 export const getProducts = asyncHandler(async (req, res) => {
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+
   const keyword = req.query.keyword
     ? {
         name: {
@@ -15,8 +18,17 @@ export const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const products = await Product.find({ ...keyword });
-  res.json(products);
+  const count = await Product.countDocuments({ ...keyword });
+  const products = await Product.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({
+    count,
+    pages: Math.ceil(count / pageSize),
+    page,
+    products,
+  });
 });
 
 // @desc Fetch single product

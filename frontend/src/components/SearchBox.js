@@ -51,7 +51,7 @@ const SearchBox = () => {
     e.preventDefault();
     const keyword = inputRef.current.value;
     if (keyword && keyword.trim()) {
-      navigator(`/search?q=${keyword}`);
+      navigator(`/?search=${keyword}`);
     } else {
       navigator('/');
     }
