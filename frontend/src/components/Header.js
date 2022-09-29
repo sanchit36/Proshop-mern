@@ -16,6 +16,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import AccountMenu from './AccountMenu';
 import AdminMenu from './AdminMenu';
+import SearchBox from './SearchBox';
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -108,23 +109,7 @@ const Header = () => {
               </Menu>
             </Box>
 
-            <Typography
-              variant='h5'
-              noWrap
-              component='a'
-              href=''
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              PRO-SHOP
-            </Typography>
+            <SearchBox />
 
             <Box
               sx={{

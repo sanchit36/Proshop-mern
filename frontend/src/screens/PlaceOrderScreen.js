@@ -45,7 +45,6 @@ const PlaceOrderScreen = () => {
   }, [navigator, success]);
 
   const placeOrderHandler = (event) => {
-    console.log('REQUEST SENDING');
     event.preventDefault();
     dispatch(
       createOrder({

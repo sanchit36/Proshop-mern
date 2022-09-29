@@ -60,7 +60,6 @@ export const userReducer = (state = {}, action) => {
 
     case USER_UPDATE_PROFILE_SUCCESS:
     case USER_CHANGE_PASSWORD_SUCCESS:
-      console.log(action.payload);
       return {
         loading: false,
         success: true,

@@ -5,16 +5,20 @@ import { Alert, Grid, Typography } from '@mui/material';
 import ProductCard from '../components/ProductCard';
 import { listProducts } from '../redux/actions/productActions';
 import Loader from '../components/Loader';
+import { useSearchParams } from 'react-router-dom';
 
 const HomeScreen = () => {
+  const [params] = useSearchParams();
+  const keyword = params.get('q');
+
   const dispatch = useDispatch();
   const { loading, error, products } = useSelector(
     (state) => state.productList
   );
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
