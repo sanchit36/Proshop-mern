@@ -30,6 +30,7 @@ const ProductEditScreen = () => {
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   );
+
   const {
     loading: loadingUpdate,
     error: errorUpdate,
@@ -37,23 +38,25 @@ const ProductEditScreen = () => {
   } = useSelector((state) => state.productUpdate);
 
   useEffect(() => {
+    dispatch(listProductDetails(productId));
+  }, [dispatch, productId]);
+
+  useEffect(() => {
+    setName(product.name);
+    setPrice(product.price);
+    setImage(product.image);
+    setBrand(product.brand);
+    setCategory(product.category);
+    setCountInStock(product.countInStock);
+    setDescription(product.description);
+  }, [product]);
+
+  useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       navigator('/admin/product-list');
-    } else {
-      if (!product || !product.name || product._id !== productId) {
-        dispatch(listProductDetails(productId));
-      } else {
-        setName(product.name);
-        setPrice(product.price);
-        setImage(product.image);
-        setBrand(product.brand);
-        setCategory(product.category);
-        setCountInStock(product.countInStock);
-        setDescription(product.description);
-      }
     }
-  }, [dispatch, navigator, product, productId, successUpdate]);
+  }, [dispatch, navigator, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
