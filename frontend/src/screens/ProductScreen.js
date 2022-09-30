@@ -24,6 +24,7 @@ import {
 import { PRODUCT_CREATE_REVIEW_RESET } from '../redux/constants/productConstants';
 import Comment from '../components/Comment';
 import { Stack } from '@mui/system';
+import Meta from '../components/Meta';
 const imageFluid = {
   maxWidth: '100%',
   height: 'auto',
@@ -69,17 +70,20 @@ const ProductScreen = () => {
   };
 
   return (
-    <div>
-      <Button
-        component={Link}
-        to='/'
-        variant='outlined'
-        color='warning'
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-      >
-        Go Back
-      </Button>
+    <>
+      <div>
+        <Button
+          component={Link}
+          to='/'
+          variant='outlined'
+          color='warning'
+          startIcon={<ArrowBackIcon />}
+          sx={{ mb: 2 }}
+        >
+          Go Back
+        </Button>
+      </div>
+
       {loading ? (
         <Loader />
       ) : error ? (
@@ -95,6 +99,8 @@ const ProductScreen = () => {
               {errorProductReview}
             </Message>
           )}
+          <Meta title={product.name} />
+
           <Grid container spacing={3}>
             <Grid item md={5}>
               <img src={product.image} alt={product.name} style={imageFluid} />
@@ -231,7 +237,7 @@ const ProductScreen = () => {
           </Grid>
         </>
       )}
-    </div>
+    </>
   );
 };
 

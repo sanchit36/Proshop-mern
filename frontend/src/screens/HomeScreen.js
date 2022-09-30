@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Alert, Grid, Typography } from '@mui/material';
+import { Alert, Button, Grid, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import ProductCard from '../components/ProductCard';
 import { listProducts } from '../redux/actions/productActions';
 import Loader from '../components/Loader';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
 import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 
 const HomeScreen = () => {
   const [params] = useSearchParams();
@@ -25,7 +27,24 @@ const HomeScreen = () => {
 
   return (
     <>
-      <ProductCarousel />
+      <Meta />
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <div>
+          <Button
+            component={Link}
+            to='/'
+            variant='outlined'
+            color='warning'
+            startIcon={<ArrowBackIcon />}
+            sx={{ mb: 2 }}
+          >
+            Go Back
+          </Button>
+        </div>
+      )}
+
       <Typography variant='h4' component='h1' gutterBottom>
         Latest Products
       </Typography>
