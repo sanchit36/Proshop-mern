@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box } from '@mui/system';
+import Meta from '../components/Meta';
 
 const CartScreen = () => {
   const navigator = useNavigate();
@@ -43,6 +44,7 @@ const CartScreen = () => {
 
   return (
     <>
+      <Meta title='Cart | ProShop' />
       <Grid container spacing={3}>
         <Grid item md={8}>
           <Typography variant='h4' component='h1' sx={{ mb: 3 }}>

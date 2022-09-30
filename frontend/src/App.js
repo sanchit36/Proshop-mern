@@ -23,6 +23,7 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import Meta from './components/Meta';
 
 const ProtectedRoute = ({ condition, component, redirectURL }) => {
   return condition ? component : <Navigate to={redirectURL} replace />;
@@ -34,6 +35,7 @@ const App = () => {
 
   return (
     <Router>
+      <Meta />
       <Header />
       <Container
         maxWidth='lg'

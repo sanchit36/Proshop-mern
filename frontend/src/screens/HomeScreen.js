@@ -9,7 +9,6 @@ import Loader from '../components/Loader';
 import { Link, useSearchParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
 import ProductCarousel from '../components/ProductCarousel';
-import Meta from '../components/Meta';
 
 const HomeScreen = () => {
   const [params] = useSearchParams();
@@ -27,7 +26,6 @@ const HomeScreen = () => {
 
   return (
     <>
-      <Meta />
       {!keyword ? (
         <ProductCarousel />
       ) : (
