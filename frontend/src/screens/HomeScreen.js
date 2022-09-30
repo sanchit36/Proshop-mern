@@ -7,6 +7,7 @@ import { listProducts } from '../redux/actions/productActions';
 import Loader from '../components/Loader';
 import { useSearchParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
+import ProductCarousel from '../components/ProductCarousel';
 
 const HomeScreen = () => {
   const [params] = useSearchParams();
@@ -24,6 +25,7 @@ const HomeScreen = () => {
 
   return (
     <>
+      <ProductCarousel />
       <Typography variant='h4' component='h1' gutterBottom>
         Latest Products
       </Typography>
