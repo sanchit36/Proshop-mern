@@ -11,7 +11,7 @@ import {
   updateProduct,
 } from '../redux/actions/productActions';
 import { PRODUCT_UPDATE_RESET } from '../redux/constants/productConstants';
-import axios from 'axios';
+import axios from '../axios';
 
 const ProductEditScreen = () => {
   const productId = useParams().id;

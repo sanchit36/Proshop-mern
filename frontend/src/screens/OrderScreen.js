@@ -17,7 +17,7 @@ import {
   payOrder,
   deliverOrder,
 } from '../redux/actions/orderActions';
-import axios from 'axios';
+import axios from '../axios';
 import {
   ORDER_DETAILS_RESET,
   ORDER_PAY_RESET,

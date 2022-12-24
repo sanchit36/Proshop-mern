@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../axios';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import {
   ORDER_CREATE_FAIL,
